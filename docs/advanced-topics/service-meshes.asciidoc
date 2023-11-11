@@ -317,13 +317,15 @@ spec:
       metadata:
         annotations:
           linkerd.io/inject: enabled <2>
+          config.alpha.linkerd.io/proxy-wait-before-exit-seconds: "65" <3>
       spec:
-        automountServiceAccountToken: true <3>
+        automountServiceAccountToken: true <4>
 ----
 
 <1> Disable automatic TLS to allow Linkerd to gather more statistics about connections (optional).
 <2> Explicitly enable sidecar injection (optional if the namespace is already annotated).
-<3> Enable service account token mounting to provide service identity (only required to enable mTLS if service account auto-mounting is disabled).
+<3> Until Native sidecars is available as an alpha feature in Kubernetes 1.28, this annotation is necessary to prevent closing of active, open connections during the shutdown of the pod.
+<4> Enable service account token mounting to provide service identity (only required to enable mTLS if service account auto-mounting is disabled).
 
 [id="{p}-service-mesh-linkerd-kibana-apm"]
 ==== Kibana and APM Server
